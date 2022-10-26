@@ -1,0 +1,137 @@
+#
+# This is the server logic of a Shiny web application. You can run the
+# application by clicking 'Run App' above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+library(shiny)
+library(tidyverse)
+library(matlib)
+
+
+
+
+### Define IO table, totals, and value added
+
+
+
+IO_database <- read.csv("io_database.csv")
+
+
+
+
+# Define server logic required to draw a histogram
+shinyServer(function(input, output) {
+  ### Define IO table, totals, and value added
+
+
+
+  ########################### IO table creation based on country choice
+
+  IO_table <- reactive({
+    IO_database %>%
+      filter(Country == input$a) %>%
+      column_to_rownames("Industry") %>%
+      select(-Country) %>%
+      mutate_all(~ as.numeric(.))
+  })
+
+  total_output <- reactive({
+    as.matrix(subset(IO_table(), rownames(IO_table()) %in% c("output")))
+  })
+
+  IO_matrix <- reactive({
+    as.matrix(subset(IO_table(), !rownames(IO_table()) %in% c("value_added", "output")))
+  })
+
+  A_NaN <- reactive({
+    sweep(IO_matrix(), MARGIN = 2, total_output(), "/")
+  })
+
+  A <- reactive({
+    as.matrix(as.data.frame(A_NaN()) %>%
+      mutate(across(.cols = everything(), ~ ifelse(is.nan(.x), 0, .x))))
+  })
+
+
+  I_A <- reactive({
+    diag(46) - A()
+  })
+  L <- reactive({
+    solve(I_A())
+  })
+
+
+
+  investment <- reactive({
+    IO_table() %>%
+      mutate(investment = 0) %>%
+      select(investment) %>%
+      mutate(investment = ifelse(rownames(.) == input$b, input$c, 0))
+  })
+
+  investment_matrix <- reactive({
+    as.matrix(subset(investment(), !rownames(IO_table()) %in% c("value_added", "output")))
+  })
+
+
+
+  impact_matrix <- reactive({
+    L() %*% investment_matrix()
+  })
+
+  total_impact <- reactive({
+    as.list(round(as.data.frame(impact_matrix()) %>%
+      summarise(impact = sum(investment)), 2))[[1]]
+  })
+
+  total_multiplier <- reactive({
+    round(total_impact() / input$c, 2)
+  })
+
+  output$impact <- renderText({
+    paste0("The total  impact (output) of the investment is: ", total_impact(), " USD.")
+  })
+
+  output$multiplier <- renderText({
+    paste0("This represents a TYPE II multiplier of ", total_multiplier(), ".")
+  })
+
+
+
+
+  output$sector_plot <- renderPlot(
+    {
+      ggplot(as.data.frame(impact_matrix())) +
+        geom_bar(aes(y = reorder(rownames(impact_matrix()), investment), x = investment), stat = "identity") +
+        labs(
+          title = "Investment impact by sector",
+          subtitle = "",
+          x = "Output (USD in billions)",
+          y = ""
+        ) +
+        scale_color_manual(values = colorRampPalette(c("#6D8B95", "#E75113", "#4C3387", "#008470", "#44546A"))(6)) +
+        theme_light() +
+        theme(
+          legend.position = "none",
+          legend.direction = "horizontal",
+          legend.margin = margin(),
+          plot.title = element_text(color = "#1085C0"),
+          plot.subtitle = element_text(color = "#75848a"),
+          axis.title = element_text(color = "#75848a"),
+          legend.text = element_text(color = "#75848a"),
+          legend.title = element_text(color = "#75848a", size = 20),
+          strip.background = element_rect(fill = "#1085C0"),
+          strip.text = element_text(color = "white")
+        )
+    },
+    height = 600,
+    width = 1800
+  )
+
+
+  #########################################################################
+})
