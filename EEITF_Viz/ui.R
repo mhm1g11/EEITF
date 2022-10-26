@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(plotly)
 
 
 sector_list<-read.csv("../sector_df.csv")

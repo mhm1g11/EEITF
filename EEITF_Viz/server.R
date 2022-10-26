@@ -9,7 +9,7 @@
 
 library(shiny)
 library(tidyverse)
-library(rsdmx)
+library(plotly)
 
 
 
