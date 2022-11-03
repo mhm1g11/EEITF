@@ -10,6 +10,8 @@
 library(shiny)
 library(tidyverse)
 library(plotly)
+library(chorddiag)
+
 
 
 
@@ -17,49 +19,102 @@ library(plotly)
 
 
 
-emissions_df <- read.csv("emissions_df.csv")
+exporter_emissions_df <- read.csv("exporter_emissions_df.csv")
+importer_emissions_df <- read.csv("importer_emissions_df.csv")
+flows_m <- read.csv("flows_m.csv")
 
 
 
 
-# Define server logic 
+# Define server logic
 shinyServer(function(input, output) {
+  
 
-    output$topCountries <- renderPlotly({
+  
+  ##overview###########################################################
+  
+  
+  output$overview <- renderChorddiag({
 
-      sector<-input$sector
-      
-      plot_ly(
-        data = top_n(emissions_df%>%filter(IND==sector),10,obsValue),
-        x = ~obsValue,
-        y = ~COU,
-        type = "bar"
-      )%>% 
-        layout(yaxis = list(title="Exporting country",categoryorder = "total ascending"),
-               xaxis = list(title="Emissions embodied in exports (tonnes, millions)",tickformat= ".0f"),
-               title="The 10 countries with the largest exported emissions",
-               plot_bgcolor = "#e5ecf6")
-
-    })
     
-    
-    output$topSectors <- renderPlotly({
-      
-      country<-input$country
-      
-      plot_ly(
-        data = top_n(emissions_df%>%filter(COU==country),10,obsValue),
-        x = ~obsValue,
-        y = ~IND,
-        type = "bar"
-      )%>% 
-        layout(yaxis = list(title="Emitting sector",categoryorder = "total ascending"),
-               xaxis = list(title="Emissions embodied in exports (tonnes, millions)",tickformat= ".0f"),
-               title=paste0("The top 10 sectors with the largest exported emissions in ",country),
-               plot_bgcolor = "#e5ecf6")
-      
-      
-      
-    })
+    chorddiag(m,type = "directional", showTicks = F, groupnameFontsize = 13, groupnamePadding = 10, margin = 200)
 
+    
+  })
+  
+  
+  
+##exporter perspective###########################################################
+  
+  output$x_topCountries <- renderPlotly({
+    x_sector <- input$x_sector
+
+    plot_ly(
+      data = top_n(exporter_emissions_df %>% filter(IND == x_sector), 10, obsValue),
+      x = ~obsValue,
+      y = ~COU,
+      type = "bar"
+    ) %>%
+      layout(
+        yaxis = list(title = "Exporting country", categoryorder = "total ascending"),
+        xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
+        title = "The 10 countries with the largest exported emissions",
+        plot_bgcolor = "#e5ecf6"
+      )
+  })
+
+
+  output$x_topSectors <- renderPlotly({
+    x_country <- input$x_country
+
+    plot_ly(
+      data = top_n(exporter_emissions_df %>% filter(COU == x_country), 10, obsValue),
+      x = ~obsValue,
+      y = ~IND,
+      type = "bar"
+    ) %>%
+      layout(
+        yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
+        xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
+        title = paste0("The top 10 sectors with the largest exported emissions in ", country),
+        plot_bgcolor = "#e5ecf6"
+      )
+  })
+
+##importer perspective###########################################################
+
+  output$i_topCountries <- renderPlotly({
+    i_sector <- input$i_sector
+
+    plot_ly(
+      data = top_n(importer_emissions_df %>% filter(IND == i_sector), 10, obsValue),
+      x = ~obsValue,
+      y = ~COU,
+      type = "bar"
+    ) %>%
+      layout(
+        yaxis = list(title = "Importing country", categoryorder = "total ascending"),
+        xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
+        title = "The 10 countries with the largest imported emissions",
+        plot_bgcolor = "#e5ecf6"
+      )
+  })
+
+
+  output$i_topSectors <- renderPlotly({
+    i_country <- input$i_country
+
+    plot_ly(
+      data = top_n(importer_emissions_df %>% filter(COU == i_country), 10, obsValue),
+      x = ~obsValue,
+      y = ~IND,
+      type = "bar"
+    ) %>%
+      layout(
+        yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
+        xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
+        title = paste0("The top 10 sectors with the largest eimported emissions in ", country),
+        plot_bgcolor = "#e5ecf6"
+      )
+  })
 })

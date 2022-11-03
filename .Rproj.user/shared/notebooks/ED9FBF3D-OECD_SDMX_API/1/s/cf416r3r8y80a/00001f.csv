@@ -1,6 +1,0 @@
-"0","write.csv(emissions_df,""emissions_df.csv"")
-write.csv(country_df,""country_df.csv"",col.names=FALSE, row.names=FALSE)
-"
-"2","Warning: attempt to set 'col.names' ignored"
-"0","write.csv(sector_df,""sector_df.csv"",col.names=FALSE, row.names=FALSE)"
-"2","Warning: attempt to set 'col.names' ignored"
