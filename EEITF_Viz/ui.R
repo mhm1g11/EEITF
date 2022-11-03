@@ -18,32 +18,64 @@ sector_pre<-"DTOTAL"
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
+  
+  navbarPage("Emissions embodied in trade",
+             tabPanel("Overview",
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
+
 
     # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            
-          selectInput("sector",
-                      "Select a sector to explore in detail",
-                      unique(sector_list),
-                      sector_pre),
-          
-          
-          selectInput("country",
-                      "Select a country to explore in detail",
-                      unique(country_list),
-                      country_pre)
-            
-            
-        ),
+  
+),
 
-        # Show a plot of the generated distribution
-        mainPanel(
-          plotlyOutput("topCountries"),  
-          plotlyOutput("topSectors")
-        )
-    )
+tabPanel("Exporter perspective",
+         
+         sidebarLayout(
+           sidebarPanel(
+             
+             selectInput("sector",
+                         "Select a sector to explore in detail",
+                         unique(sector_list),
+                         sector_pre),
+             
+             
+             selectInput("country",
+                         "Select a country to explore in detail",
+                         unique(country_list),
+                         country_pre)
+             
+             
+           ),
+           
+           # Show a plot of the generated distribution
+           mainPanel(
+             plotlyOutput("topCountries"),  
+             plotlyOutput("topSectors")
+           )
+         )
+         
+         
+         
+         
+         
+         
+         
+)
+
+,
+
+tabPanel("Importer perspective",
+         
+         
+
+         
+         
+)
+
 ))
+
+
+) 
+           
+           
+       
