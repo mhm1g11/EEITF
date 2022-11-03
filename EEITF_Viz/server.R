@@ -17,7 +17,7 @@ library(plotly)
 
 
 
-emissions_df <- read.csv("../emissions_df.csv")
+emissions_df <- read.csv("emissions_df.csv")
 
 
 

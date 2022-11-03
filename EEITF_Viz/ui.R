@@ -11,8 +11,8 @@ library(shiny)
 library(plotly)
 
 
-sector_list<-read.csv("../sector_df.csv")
-country_list<-read.csv("../country_df.csv")
+sector_list<-read.csv("sector_df.csv")
+country_list<-read.csv("country_df.csv")
 country_pre<-"CHN"
 sector_pre<-"DTOTAL"
 
