@@ -3,5 +3,8 @@
 
 
 
+library(rsconnect)
+rsconnect::deployApp('EEITF_Viz', account = "mhm1g11")
+
 
 
