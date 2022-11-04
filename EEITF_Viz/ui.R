@@ -29,14 +29,20 @@ shinyUI(fluidPage(
           "About 27% of global emissions in final demand are embodied in international trade flows.
       Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
       Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
-      remains significant.",
-          br(),
+      remains significant."
+
         ),
         mainPanel(
-          chorddiagOutput("overview", height = 700, width = 700)
-        )
+          radioButtons("m_version", 
+                       "Show all emissions or only emissions embodied in trade?",
+                       c("Total emissions"="m_1","Emissions embodied in trade"="m_2")),
+          chorddiagOutput("overview", 
+                          height = 800, 
+                          width = 800)
+          )
       )
-    ),
+        )
+      ,
 
     ## exporter perspective###########################################################
 
@@ -104,4 +110,5 @@ shinyUI(fluidPage(
       )
     )
   )
-))
+)
+)
