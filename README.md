@@ -5,6 +5,8 @@
   
   *Work in progress*
   
+  Currently deployed [here](https://mhm1g11.shinyapps.io/eeitf_viz/).
+  
   To Do:
   
   * Create multi-tab layout:
@@ -12,6 +14,8 @@
     * Overview
       * Chord diagram with flows - _done!_
       * Country selection returning profile
+      * Emission intensity of trade: emissions versus volume / value
+      * longitudinal representation
     * Exporter perspective
       * Data infrastructure - _done!_
       * Largest exporters - _done!_

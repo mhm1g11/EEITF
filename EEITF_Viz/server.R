@@ -21,33 +21,43 @@ library(chorddiag)
 
 exporter_emissions_df <- read.csv("exporter_emissions_df.csv")
 importer_emissions_df <- read.csv("importer_emissions_df.csv")
-flows_m <- read.csv("flows_m.csv")%>%
+flows_m_1 <- read.csv("flows_m_1.csv") %>%
+  select(-1)%>%
   column_to_rownames("x_region")
-m<-as.matrix(flows_m)
+m_1 <- as.matrix(flows_m_1)
+
+flows_m_2 <- read.csv("flows_m_2.csv") %>%
+  select(-1)%>%
+  column_to_rownames("x_region")
+m_2 <- as.matrix(flows_m_2)
+
 
 
 
 
 # Define server logic
 shinyServer(function(input, output) {
+  ## overview###########################################################
+  
   
 
-  
-  ##overview###########################################################
-  
-  
   output$overview <- renderChorddiag({
-
     
-    chorddiag(m,type = "directional", showTicks = F, groupnameFontsize = 13, groupnamePadding = 10, margin = 200)
-
+    
+    if(input$m_version=="m_1"){
+      chorddiag(m_1, type = "directional", showTicks = F, groupnameFontsize = 13, groupnamePadding = 10, margin = 200)
+    }else if (input$m_version=="m_2") {
+      chorddiag(m_2, type = "directional", showTicks = F, groupnameFontsize = 13, groupnamePadding = 10, margin = 200)
+    }
+    
+    
     
   })
-  
-  
-  
-##exporter perspective###########################################################
-  
+
+
+
+  ## exporter perspective###########################################################
+
   output$x_topCountries <- renderPlotly({
     x_sector <- input$x_sector
 
@@ -83,7 +93,7 @@ shinyServer(function(input, output) {
       )
   })
 
-##importer perspective###########################################################
+  ## importer perspective###########################################################
 
   output$i_topCountries <- renderPlotly({
     i_sector <- input$i_sector

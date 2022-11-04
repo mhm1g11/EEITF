@@ -58,17 +58,27 @@ flows_emission_data_url<- "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/IO_
 
 flows_emissions_df <- as.data.frame(readSDMX(flows_emission_data_url),labels=TRUE)
 
-flows_emissions_df_m<-flows_emissions_df%>%
+flows_emissions_df_m_1<-flows_emissions_df%>%
   select(COU,PAR,obsValue)%>%
-  mutate(x_region=countrycode(COU,origin = "iso3c",destination = "region23"))%>%
-  mutate(i_region=countrycode(PAR,origin = "iso3c",destination = "region23"))%>%
+  mutate(x_region=countrycode(COU,origin = "iso3c",destination = "region"))%>%
+  mutate(i_region=countrycode(PAR,origin = "iso3c",destination = "region"))%>%
   select(-COU,-PAR)%>%
   group_by(i_region,x_region)%>%
   summarize(obsValue=sum(obsValue))%>%
   pivot_wider(names_from = i_region,values_from = obsValue)
 
-write.csv(flows_emissions_df_m,"EEITF_Viz/flows_m.csv")
+flows_emissions_df_m_2<-flows_emissions_df%>%
+  select(COU,PAR,obsValue)%>%
+  mutate(x_region=countrycode(COU,origin = "iso3c",destination = "region"))%>%
+  mutate(i_region=countrycode(PAR,origin = "iso3c",destination = "region"))%>%
+  filter(x_region!=i_region)%>%
+  select(-COU,-PAR)%>%
+  group_by(i_region,x_region)%>%
+  summarize(obsValue=sum(obsValue))%>%
+  pivot_wider(names_from = i_region,values_from = obsValue)
 
+write.csv(flows_emissions_df_m_1,"EEITF_Viz/flows_m_1.csv")
+write.csv(flows_emissions_df_m_2,"EEITF_Viz/flows_m_2.csv")
 ```
 
 
