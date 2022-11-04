@@ -21,7 +21,9 @@ library(chorddiag)
 
 exporter_emissions_df <- read.csv("exporter_emissions_df.csv")
 importer_emissions_df <- read.csv("importer_emissions_df.csv")
-flows_m <- read.csv("flows_m.csv")
+flows_m <- read.csv("flows_m.csv")%>%
+  column_to_rownames("x_region")
+m<-as.matrix(flows_m)
 
 
 
@@ -76,7 +78,7 @@ shinyServer(function(input, output) {
       layout(
         yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
         xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
-        title = paste0("The top 10 sectors with the largest exported emissions in ", country),
+        title = paste0("The top 10 sectors with the largest exported emissions in ", x_country),
         plot_bgcolor = "#e5ecf6"
       )
   })
@@ -113,7 +115,7 @@ shinyServer(function(input, output) {
       layout(
         yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
         xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
-        title = paste0("The top 10 sectors with the largest eimported emissions in ", country),
+        title = paste0("The top 10 sectors with the largest eimported emissions in ", i_country),
         plot_bgcolor = "#e5ecf6"
       )
   })

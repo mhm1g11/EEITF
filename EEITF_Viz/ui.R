@@ -27,15 +27,18 @@ shinyUI(fluidPage(
       sidebarLayout(
       sidebarPanel(
         
-      h3("Headline"),
-      "Lorem Ipsum",
+      h3("Emissions embodied in trade flows"),
+      "About 27% of global emissions in final demand are embodied in international trade flows. 
+      Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
+      Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
+      remains significant.",
       br(),
         
       ),
       
       mainPanel(
 
-        chorddiagOutput("overview", height=600, width=600)
+        chorddiagOutput("overview", height=700, width=700)
         
       )
       
@@ -51,19 +54,19 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           
-          h3("Headline"),
-          "Lorem Ipsum",
+          h3("How much emissions do countries export?"),
+          "Aggregate exported emissions per industry sector.",
           br(),
           
           selectInput(
             "x_sector",
-            "Select a sector to explore in detail",
+            "Select a sector to explore in detail (top figure)",
             unique(sector_list),
             sector_pre
           ),
           selectInput(
             "x_country",
-            "Select a country to explore in detail",
+            "Select a country to explore in detail (bottom figure)",
             unique(country_list),
             country_pre
           )
@@ -85,19 +88,19 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           
-          h3("Headline"),
-          "Lorem Ipsum",
+          h3("How much emissions do countries import?"),
+          "Aggregate imported emissions per industry sector.",
           br(),
           
           selectInput(
             "i_sector",
-            "Select a sector to explore in detail",
+            "Select a sector to explore in detail (top figure)",
             unique(sector_list),
             sector_pre
           ),
           selectInput(
             "i_country",
-            "Select a country to explore in detail",
+            "Select a country to explore in detail (bottom figure)",
             unique(country_list),
             country_pre
           )

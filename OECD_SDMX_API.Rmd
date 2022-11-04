@@ -65,8 +65,7 @@ flows_emissions_df_m<-flows_emissions_df%>%
   select(-COU,-PAR)%>%
   group_by(i_region,x_region)%>%
   summarize(obsValue=sum(obsValue))%>%
-  pivot_wider(names_from = i_region,values_from = obsValue)%>%
-  column_to_rownames("x_region")
+  pivot_wider(names_from = i_region,values_from = obsValue)
 
 write.csv(flows_emissions_df_m,"EEITF_Viz/flows_m.csv")
 

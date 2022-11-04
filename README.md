@@ -10,7 +10,7 @@
   * Create multi-tab layout:
     * Layout infrastructure - _done!_
     * Overview
-      * World map with emissions trade flows
+      * Chord diagram with flows - _done!_
       * Country selection returning profile
     * Exporter perspective
       * Data infrastructure - _done!_
@@ -18,12 +18,12 @@
       * Largest export sectors
       * Carbon tariff exposure
     * Importer perspective
-      * Data infrastructure
-      * Largest importers
+      * Data infrastructure - _done!_
+      * Largest importers - _done!_
       * Largest import sectors
       * Carbon pricing exposure
   * CSS style sheets (also for general template use)
-  * Deployment
+  * Deployment - _done!_
 
 ---
   
