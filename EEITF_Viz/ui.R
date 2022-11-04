@@ -35,11 +35,14 @@ shinyUI(fluidPage(
           remains significant."),
 
       ),
+      
+      tags$div(class = "settings",
+               radioButtons("m_version",
+                            "Show all emissions or only emissions embodied in trade?",
+                            c("Total emissions"="m_1","Emissions embodied in trade"="m_2"))
+      ),
 
       tags$div(class = "graphs",
-         radioButtons("m_version",
-                      "Show all emissions or only emissions embodied in trade?",
-                      c("Total emissions"="m_1","Emissions embodied in trade"="m_2")),
          chorddiagOutput("overview",
                          height = 800,
                          width = 800)      )
