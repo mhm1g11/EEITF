@@ -19,45 +19,40 @@ sector_pre <- "DTOTAL"
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "./style.css")
+  ),
   navbarPage(
     "Emissions embodied in trade",
     tabPanel(
       "Overview",
       
-      sidebarLayout(
-      sidebarPanel(
-        
-      h3("Emissions embodied in trade flows"),
-      "About 27% of global emissions in final demand are embodied in international trade flows. 
-      Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
-      Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
-      remains significant.",
-      br(),
-        
+      tags$div(
+          h3("Emissions embodied in trade flows"),
+          p("About 27% of global emissions in final demand are embodied in international trade flows. 
+          Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
+          Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
+          remains significant."),
+
       ),
       
-      mainPanel(
-
+      tags$div(class = "graphs",
         chorddiagOutput("overview", height=700, width=700)
-        
       )
-      
-      
-      
-      )),
+    ),
     
 ##exporter perspective###########################################################
   
     
     tabPanel(
       "Exporter perspective",
-      sidebarLayout(
-        sidebarPanel(
-          
-          h3("How much emissions do countries export?"),
-          "Aggregate exported emissions per industry sector.",
-          br(),
-          
+      tags$div(
+        
+        h3("How much emissions do countries export?"),
+        p("Aggregate exported emissions per industry sector."),
+        
+        tags$div(class = "settings",
+
           selectInput(
             "x_sector",
             "Select a sector to explore in detail (top figure)",
@@ -73,7 +68,7 @@ shinyUI(fluidPage(
         ),
 
         # Show a plot of the generated distribution
-        mainPanel(
+        tags$div(class = "graphs",
           plotlyOutput("x_topCountries"),
           br(),
           plotlyOutput("x_topSectors")
@@ -85,13 +80,13 @@ shinyUI(fluidPage(
     
     tabPanel(
       "Importer perspective",
-      sidebarLayout(
-        sidebarPanel(
-          
-          h3("How much emissions do countries import?"),
-          "Aggregate imported emissions per industry sector.",
-          br(),
-          
+      tags$div(
+        
+        h3("How much emissions do countries import?"),
+        p("Aggregate imported emissions per industry sector."),
+        
+        tags$div(class = "settings",
+
           selectInput(
             "i_sector",
             "Select a sector to explore in detail (top figure)",
@@ -108,7 +103,7 @@ shinyUI(fluidPage(
         
 
         # Show a plot of the generated distribution
-        mainPanel(
+        tags$div(class = "graphs",
           plotlyOutput("i_topCountries"),
           br(),
           plotlyOutput("i_topSectors")
