@@ -60,10 +60,21 @@ p {
   padding: 20px;
   margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 60vw;
   margin: 20px auto;
+  margin: 20px auto;
+  gap: 40px;
+}
+
+[type=radio]:checked::before,
+[type=checkbox]:checked::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background-color: #962D3E;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  border-radius: 10px;
 }
 
 .shiny-input-container:not(.shiny-input-container-inline) {
