@@ -20,7 +20,8 @@ sector_pre <- "DTOTAL"
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "./style.css")
+    tags$link(rel = "stylesheet", type = "text/css", href = "./style.css"),
+    tags$link(rel="shortcut icon", href="./favicon.ico")
   ),
   navbarPage(
     "Emissions embodied in trade",
