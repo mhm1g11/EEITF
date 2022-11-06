@@ -9,8 +9,19 @@
 
 library(shiny)
 library(tidyverse)
+library(ggplot2)
 library(plotly)
 library(chorddiag)
+library(ggrepel)
+
+
+### Set colour palette
+
+c1 <- "#2C3333"
+c2 <- "#395B64"
+c3 <- "#A5C9CA"
+c4 <- "#DFF6FF"
+c5 <- "#9F73AB"
 
 
 
@@ -59,43 +70,83 @@ shinyServer(function(input, output) {
   ## exporter perspective###########################################################
 
   output$x_topCountries <- renderPlotly({
-    x_sector <- input$x_sector
 
-    plot_ly(
-      data = top_n(exporter_emissions_df %>% filter(IND == x_sector), 10, obsValue),
-      x = ~obsValue,
-      y = ~COU,
-      type = "bar",
-      color = "#348899"
-    ) %>%
-      layout(
-        yaxis = list(title = "Exporting country", categoryorder = "total ascending",zerolinecolor = '#343642',
-                     zerolinewidth = 4,
-                     gridcolor = '#343642'),
-        xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
-        title = "The 10 countries with the largest exported emissions",
-        plot_bgcolor = "#979C9C",zerolinecolor = '#343642',
-        zerolinewidth = 4,
-        gridcolor = 'gray'
-      )
+    
+    x_sector<- input$x_sector
+    
+    ggplotly(
+      ggplot(top_n(exporter_emissions_df %>% filter(IND == input$x_sector), input$n_e_country, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c3, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        labs(title =paste0("The ",input$n_e_country, " countries with the largest exported emissions"),
+             x ="Emissions embodied in exports (tonnes, millions)",
+             y="")+
+        theme_light()+
+        theme(legend.position="right",
+              legend.direction="vertical",
+              legend.margin=margin(),
+              plot.title = element_text(color = c1),
+              plot.subtitle = element_text(color = c1),
+              axis.title = element_text(color = c1),
+              legend.text = element_text(color = c1),
+              legend.title = element_text(color = c1),
+              
+              
+              axis.line=element_blank(),
+              axis.text.x=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid.major=element_blank(),
+              panel.grid.minor=element_blank(),
+              plot.background=element_blank())
+      
+      
+      
+    )
+    
   })
 
 
-  output$x_topSectors <- renderPlotly({
-    x_country <- input$x_country
 
-    plot_ly(
-      data = top_n(exporter_emissions_df %>% filter(COU == x_country), 10, obsValue),
-      x = ~obsValue,
-      y = ~IND,
-      type = "bar"
-    ) %>%
-      layout(
-        yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
-        xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
-        title = paste0("The top 10 sectors with the largest exported emissions in ", x_country),
-        plot_bgcolor = "#e5ecf6"
-      )
+  output$x_topSectors <- renderPlotly({
+    
+    x_country <- input$x_country
+    
+    ggplotly(
+      ggplot(top_n(exporter_emissions_df %>% filter(COU == input$x_country), input$n_e_sector, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(IND,obsValue)),fill=c2,color=c3, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(IND,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        labs(title =paste0("The top ", input$n_e_sector," sectors with the largest exported emissions in ", x_country),
+             x ="Emissions embodied in exports (tonnes, millions)",
+             y="")+
+        theme_light()+
+        theme(legend.position="right",
+              legend.direction="vertical",
+              legend.margin=margin(),
+              plot.title = element_text(color = c1),
+              plot.subtitle = element_text(color = c1),
+              axis.title = element_text(color = c1),
+              legend.text = element_text(color = c1),
+              legend.title = element_text(color = c1),
+              
+              
+              axis.line=element_blank(),
+              axis.text.x=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid.major=element_blank(),
+              panel.grid.minor=element_blank(),
+              plot.background=element_blank())
+      
+      
+    )
+    
   })
 
   ## importer perspective###########################################################
@@ -103,35 +154,75 @@ shinyServer(function(input, output) {
   output$i_topCountries <- renderPlotly({
     i_sector <- input$i_sector
 
-    plot_ly(
-      data = top_n(importer_emissions_df %>% filter(IND == i_sector), 10, obsValue),
-      x = ~obsValue,
-      y = ~COU,
-      type = "bar"
-    ) %>%
-      layout(
-        yaxis = list(title = "Importing country", categoryorder = "total ascending"),
-        xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
-        title = "The 10 countries with the largest imported emissions",
-        plot_bgcolor = "#e5ecf6"
-      )
+    ggplotly(
+      ggplot(top_n(importer_emissions_df %>% filter(IND == input$i_sector), input$n_i_country, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c3, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        labs(title =paste0("The ",input$n_i_country, " countries with the largest imported emissions"),
+             x ="Emissions embodied in imports (tonnes, millions)",
+             y="")+
+        theme_light()+
+        theme(legend.position="right",
+              legend.direction="vertical",
+              legend.margin=margin(),
+              plot.title = element_text(color = c1),
+              plot.subtitle = element_text(color = c1),
+              axis.title = element_text(color = c1),
+              legend.text = element_text(color = c1),
+              legend.title = element_text(color = c1),
+              
+              
+              axis.line=element_blank(),
+              axis.text.x=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid.major=element_blank(),
+              panel.grid.minor=element_blank(),
+              plot.background=element_blank())
+    )
+      
   })
 
 
   output$i_topSectors <- renderPlotly({
     i_country <- input$i_country
 
-    plot_ly(
-      data = top_n(importer_emissions_df %>% filter(COU == i_country), 10, obsValue),
-      x = ~obsValue,
-      y = ~IND,
-      type = "bar"
-    ) %>%
-      layout(
-        yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
-        xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
-        title = paste0("The top 10 sectors with the largest imported emissions in ", i_country),
-        plot_bgcolor = "#e5ecf6"
-      )
+    ggplotly(
+      ggplot(top_n(importer_emissions_df %>% filter(COU == input$i_country), input$n_i_sector, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(IND,obsValue)),fill=c2,color=c3, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(IND,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        labs(title =paste0("The top ", input$n_i_sector," sectors with the largest imported emissions in ", i_country),
+             x ="Emissions embodied in imports (tonnes, millions)",
+             y="")+
+        theme_light()+
+        theme(legend.position="right",
+              legend.direction="vertical",
+              legend.margin=margin(),
+              plot.title = element_text(color = c1),
+              plot.subtitle = element_text(color = c1),
+              axis.title = element_text(color = c1),
+              legend.text = element_text(color = c1),
+              legend.title = element_text(color = c1),
+              
+              
+              axis.line=element_blank(),
+              axis.text.x=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid.major=element_blank(),
+              panel.grid.minor=element_blank(),
+              plot.background=element_blank())
+      
+      
+    )
+    
+    
+    
   })
 })

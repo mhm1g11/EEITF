@@ -64,12 +64,24 @@ shinyUI(fluidPage(
             unique(sector_list),
             sector_pre
           ),
+          
+          sliderInput("n_e_country", "How many countries?", 1, 50,
+                      10)
+          
+          
+          
+          ,
           selectInput(
             "x_country",
             "Select a country to explore in detail (bottom figure)",
             unique(country_list),
             country_pre
-          )
+          ),
+          
+          sliderInput("n_e_sector", "How many sectors?", 1, 50,
+                      10)
+          
+          
         ),
 
         # Show a plot of the generated distribution
@@ -96,12 +108,26 @@ shinyUI(fluidPage(
             unique(sector_list),
             sector_pre
           ),
+          
+          sliderInput("n_i_country", "How many countries?", 1, 50,
+                      10)
+          
+          
+          
+          ,
+          
           selectInput(
             "i_country",
             "Select a country to explore in detail (bottom figure)",
             unique(country_list),
             country_pre
-          )
+          ),
+          
+          sliderInput("n_i_sector", "How many sectors?", 1, 50,
+                      10)
+          
+          
+        
         ),
 
 
