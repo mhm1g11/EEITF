@@ -65,13 +65,18 @@ shinyServer(function(input, output) {
       data = top_n(exporter_emissions_df %>% filter(IND == x_sector), 10, obsValue),
       x = ~obsValue,
       y = ~COU,
-      type = "bar"
+      type = "bar",
+      color = "#348899"
     ) %>%
       layout(
-        yaxis = list(title = "Exporting country", categoryorder = "total ascending"),
+        yaxis = list(title = "Exporting country", categoryorder = "total ascending",zerolinecolor = '#343642',
+                     zerolinewidth = 4,
+                     gridcolor = '#343642'),
         xaxis = list(title = "Emissions embodied in exports (tonnes, millions)", tickformat = ".0f"),
         title = "The 10 countries with the largest exported emissions",
-        plot_bgcolor = "#e5ecf6"
+        plot_bgcolor = "#979C9C",zerolinecolor = '#343642',
+        zerolinewidth = 4,
+        gridcolor = 'gray'
       )
   })
 
