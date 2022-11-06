@@ -130,7 +130,7 @@ shinyServer(function(input, output) {
       layout(
         yaxis = list(title = "Emitting sector", categoryorder = "total ascending"),
         xaxis = list(title = "Emissions embodied in imports (tonnes, millions)", tickformat = ".0f"),
-        title = paste0("The top 10 sectors with the largest eimported emissions in ", i_country),
+        title = paste0("The top 10 sectors with the largest imported emissions in ", i_country),
         plot_bgcolor = "#e5ecf6"
       )
   })

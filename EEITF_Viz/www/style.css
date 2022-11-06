@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+/** Body **/
+body {
+  background-color: #fefdfb;
+  color: #343642;
+  font-family: 'Raleway', sans-serif;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+p {
+  color: #696e6e;
+  font-size: 16px;
+}
+
+
+/** Navbar **/
+
+.navbar-default {
+  background-color: #962D3E;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.navbar-nav {
+  font-size: 18px;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
+  color: #F2EBC7;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  color: #F2EBC7;
+  background-color: #bb384d;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  font-weight: bold;
+}
+
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: #F2EBC7;
+}
+
+
+/** Settings **/
+
+.settings {
+  background: #f5f0d4;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  margin: 20px auto;
+  margin: 20px auto;
+  gap: 40px;
+}
+
+[type=radio]:checked::before,
+[type=checkbox]:checked::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background-color: #962D3E;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  border-radius: 10px;
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 100%;
+}
+
+.selectize-control {
+  margin-bottom: none;
+}
+
+.settings .form-group:last-child {
+  margin-bottom: 0;
+}
+
+/** Graphs **/
+
+.graphs {
+  width: fit-content;
+  margin: auto;
+  max-width: 90vw;
+  overflow: hidden;
+}
