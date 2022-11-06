@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&display=swap');
 
 /** Body **/
 body {
@@ -20,27 +20,49 @@ p {
 /** Navbar **/
 
 .navbar-default {
-  background-color: #962D3E;
+  background-color: #1A374D;
   margin-left: -15px;
   margin-right: -15px;
 }
 
+.navbar {
+  min-height: 80px;
+  display: flex;
+}
+
+.navbar > div {
+  margin: 0;
+}
+
 .navbar-nav {
   font-size: 18px;
+  display: flex;
+  height: 100%;
+  align-items: center;
 }
 
 .navbar-brand {
+  width: 160px;
   font-size: 22px;
   font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+.navbar-nav>li {
+  height: 100%;
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
-  color: #F2EBC7;
+  color: #f1f6ff;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-  color: #F2EBC7;
-  background-color: #bb384d;
+  color: #f1f6ff;
+  background-color: #406882;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
@@ -48,29 +70,18 @@ p {
 }
 
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
-  color: #F2EBC7;
+  color: #f1f6ff;
 }
 
 
 /** Settings **/
-
-.settings {
-  background: #f5f0d4;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  margin: 20px auto;
-  margin: 20px auto;
-  gap: 40px;
-}
 
 [type=radio]:checked::before,
 [type=checkbox]:checked::before {
   content: "";
   width: 9px;
   height: 9px;
-  background-color: #962D3E;
+  background-color: #1A374D;
   position: absolute;
   top: 2px;
   left: 2px;
@@ -87,13 +98,4 @@ p {
 
 .settings .form-group:last-child {
   margin-bottom: 0;
-}
-
-/** Graphs **/
-
-.graphs {
-  width: fit-content;
-  margin: auto;
-  max-width: 90vw;
-  overflow: hidden;
 }

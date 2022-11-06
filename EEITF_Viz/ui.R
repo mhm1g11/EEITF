@@ -27,40 +27,37 @@ shinyUI(fluidPage(
     "Emissions embodied in trade",
     tabPanel(
       "Overview",
-
-      tags$div(
+      sidebarLayout(
+        sidebarPanel(
           h3("Emissions embodied in trade flows"),
-          p("About 27% of global emissions in final demand are embodied in international trade flows.
-          Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
-          Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
-          remains significant."),
+          "About 27% of global emissions in final demand are embodied in international trade flows.
+      Developed countires tend to be net importers of emissions, and developing and emerging countries are often net exporters.
+      Without a global carbon pricing approach or carbon border adjustment mechanisms, carbon leakage and the outsourcing of emissive activies
+      remains significant."
 
-      ),
-      
-      tags$div(class = "settings",
-               radioButtons("m_version",
-                            "Show all emissions or only emissions embodied in trade?",
-                            c("Total emissions"="m_1","Emissions embodied in trade"="m_2"))
-      ),
-
-      tags$div(class = "graphs",
-         chorddiagOutput("overview",
-                         height = 800,
-                         width = 800)      )
-    ),
+        ),
+        mainPanel(
+          radioButtons("m_version",
+                       "Show all emissions or only emissions embodied in trade?",
+                       c("Total emissions"="m_1","Emissions embodied in trade"="m_2")),
+          chorddiagOutput("overview",
+                          height = 800,
+                          width = 800)
+          )
+      )
+        )
+      ,
 
 ##exporter perspective###########################################################
 
 
     tabPanel(
       "Exporter perspective",
-      tags$div(
-
-        h3("How much emissions do countries export?"),
-        p("Aggregate exported emissions per industry sector."),
-
-        tags$div(class = "settings",
-
+      sidebarLayout(
+        sidebarPanel(
+          h3("How much emissions do countries export?"),
+          "Aggregate exported emissions per industry sector.",
+          br(),
           selectInput(
             "x_sector",
             "Select a sector to explore in detail (top figure)",
@@ -88,7 +85,7 @@ shinyUI(fluidPage(
         ),
 
         # Show a plot of the generated distribution
-        tags$div(class = "graphs",
+        mainPanel(
           plotlyOutput("x_topCountries"),
           br(),
           plotlyOutput("x_topSectors")
@@ -100,13 +97,11 @@ shinyUI(fluidPage(
 
     tabPanel(
       "Importer perspective",
-      tags$div(
-
-        h3("How much emissions do countries import?"),
-        p("Aggregate imported emissions per industry sector."),
-
-        tags$div(class = "settings",
-
+      sidebarLayout(
+        sidebarPanel(
+          h3("How much emissions do countries import?"),
+          "Aggregate imported emissions per industry sector.",
+          br(),
           selectInput(
             "i_sector",
             "Select a sector to explore in detail (top figure)",
@@ -137,7 +132,7 @@ shinyUI(fluidPage(
 
 
         # Show a plot of the generated distribution
-        tags$div(class = "graphs",
+        mainPanel(
           plotlyOutput("i_topCountries"),
           br(),
           plotlyOutput("i_topSectors")
