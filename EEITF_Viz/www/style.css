@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&display=swap');
 
 /** Body **/
 body {
@@ -25,17 +25,39 @@ p {
   margin-right: -15px;
 }
 
+.navbar {
+  min-height: 80px;
+  display: flex;
+}
+
+.navbar > div {
+  margin: 0;
+}
+
 .navbar-nav {
   font-size: 18px;
+  display: flex;
+  height: 100%;
+  align-items: center;
 }
 
 .navbar-brand {
+  width: 160px;
   font-size: 22px;
   font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+.navbar-nav>li {
+  height: 100%;
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
   color: #F2EBC7;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
