@@ -76,17 +76,6 @@ p {
 
 /** Settings **/
 
-.settings {
-  background: #f5f0d4;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  margin: 20px auto;
-  margin: 20px auto;
-  gap: 40px;
-}
-
 [type=radio]:checked::before,
 [type=checkbox]:checked::before {
   content: "";
@@ -109,13 +98,4 @@ p {
 
 .settings .form-group:last-child {
   margin-bottom: 0;
-}
-
-/** Graphs **/
-
-.graphs {
-  width: fit-content;
-  margin: auto;
-  max-width: 90vw;
-  overflow: hidden;
 }
