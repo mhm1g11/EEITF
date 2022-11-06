@@ -20,7 +20,7 @@ p {
 /** Navbar **/
 
 .navbar-default {
-  background-color: #962D3E;
+  background-color: #1A374D;
   margin-left: -15px;
   margin-right: -15px;
 }
@@ -54,15 +54,15 @@ p {
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
-  color: #F2EBC7;
+  color: #f1f6ff;
   height: 100%;
   display: flex;
   align-items: center;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-  color: #F2EBC7;
-  background-color: #bb384d;
+  color: #f1f6ff;
+  background-color: #406882;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
@@ -70,7 +70,7 @@ p {
 }
 
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
-  color: #F2EBC7;
+  color: #f1f6ff;
 }
 
 
@@ -92,7 +92,7 @@ p {
   content: "";
   width: 9px;
   height: 9px;
-  background-color: #962D3E;
+  background-color: #1A374D;
   position: absolute;
   top: 2px;
   left: 2px;
