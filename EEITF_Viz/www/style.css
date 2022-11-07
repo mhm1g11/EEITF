@@ -81,10 +81,6 @@ p {
 
 
 @media screen and (max-width: 768px) {
-  .navbar {
-    min-height: 50px;
-  }
-  
   .navbar-nav {
     font-size: 14px;
   }
