@@ -16,20 +16,32 @@ library(plotly)
 ```
 
 ```{r}
+isic<-read.csv("isic.csv",header = TRUE)
+colnames(isic) <- isic[1, ]  
+isic<- isic[-1,]
+```
+
+
+
+
+```{r}
 exporter_emission_data_url<- "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/IO_GHG_2021/FD_CO2.AUS+AUT+BEL+CAN+CHL+COL+CRI+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+ARG+BRA+BRN+BGR+KHM+CHN+HRV+CYP+IND+IDN+HKG+KAZ+LAO+MYS+MLT+MAR+MMR+PER+PHL+ROU+RUS+SAU+SGP+ZAF+TWN+THA+TUN+VNM.WLD.DTOTAL+D01T03+D01T02+D03+D05T09+D05T06+D07T08+D09+D10T33+D10T12+D13T15+D16T18+D16+D17T18+D19T23+D19+D20T21+D20+D21+D22+D23+D24T25+D24+D25+D26T27+D26+D27+D28+D29T30+D29+D30+D31T33+D35T39+D35+D36T39+D41T43+D45T82+D45T56+D45T47+D49T53+D49+D50+D51+D52+D53+D55T56+D58T63+D58T60+D61+D62T63+D64T66+D68+D69T82+D69T75+D77T82+D84T98+D84T88+D84+D85+D86T88+D90T98+D90T96+D90T93+D94T96+D97T98+D05T39+D41T98+D45T98+D58T82+DINFO+DMHH/all?startTime=2018&endTime=2018"
 
 exporter_emissions_df <- as.data.frame(readSDMX(exporter_emission_data_url),labels=TRUE)
+
+exporter_emissions_df<-merge(exporter_emissions_df,isic, by.x = "IND", by.y = "Id")
+  
 
 write.csv(exporter_emissions_df,"EEITF_Viz/exporter_emissions_df.csv")
 
 
 
 
-country_df <- emissions_df%>%
+country_df <- exporter_emissions_df%>%
   select(COU)
 
-sector_df <- emissions_df%>%
-  select(IND)
+sector_df <- exporter_emissions_df%>%
+  select(Desc)
 
 write.csv(country_df,"EEITF_Viz/country_df.csv",col.names=FALSE, row.names=FALSE)
 write.csv(sector_df,"EEITF_Viz/sector_df.csv",col.names=FALSE, row.names=FALSE)
@@ -45,6 +57,8 @@ importer_emission_data_url<- "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/
 
 importer_emissions_df <- as.data.frame(readSDMX(importer_emission_data_url),labels=TRUE)
 
+importer_emissions_df<-merge(importer_emissions_df,isic, by.x = "IND", by.y = "Id")
+
 write.csv(importer_emissions_df,"EEITF_Viz/importer_emissions_df.csv")
 
 
@@ -57,6 +71,8 @@ write.csv(importer_emissions_df,"EEITF_Viz/importer_emissions_df.csv")
 flows_emission_data_url<- "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/IO_GHG_2021/FD_CO2.AUS+AUT+BEL+CAN+CHL+COL+CRI+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+ARG+BRA+BRN+BGR+KHM+CHN+HRV+CYP+IND+IDN+HKG+KAZ+LAO+MYS+MLT+MAR+MMR+PER+PHL+ROU+RUS+SAU+SGP+ZAF+TWN+THA+TUN+VNM.AUS+AUT+BEL+CAN+CHL+COL+CRI+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+ARG+BRA+BRN+BGR+KHM+CHN+HRV+CYP+IND+IDN+HKG+KAZ+LAO+MYS+MLT+MAR+MMR+PER+PHL+ROU+RUS+SAU+SGP+ZAF+TWN+THA+TUN+VNM.DTOTAL/all?startTime=2018&endTime=2018"
 
 flows_emissions_df <- as.data.frame(readSDMX(flows_emission_data_url),labels=TRUE)
+
+flows_emissions_df<-merge(flows_emissions_df,isic, by.x = "IND", by.y = "Id")
 
 flows_emissions_df_m_1<-flows_emissions_df%>%
   select(COU,PAR,obsValue)%>%
@@ -82,12 +98,5 @@ write.csv(flows_emissions_df_m_2,"EEITF_Viz/flows_m_2.csv")
 ```
 
 
-```{r}
-library(chorddiag)
 
-m<-as.matrix(flows_emissions_df_m)
-
-chorddiag(m)
-
-```
 

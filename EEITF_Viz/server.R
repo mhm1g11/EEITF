@@ -13,17 +13,18 @@ library(ggplot2)
 library(plotly)
 library(chorddiag)
 library(ggrepel)
-
+library(grid)
+library(gtable)
 
 ### Set colour palette
 
 c1 <- "#2C3333"
-c2 <- "#395B64"
+c2 <- "#1a374d"
 c3 <- "#A5C9CA"
 c4 <- "#DFF6FF"
 c5 <- "#9F73AB"
 
-
+sector_list <- read.csv("sector_df.csv")
 
 
 ### Define emission database
@@ -69,14 +70,26 @@ shinyServer(function(input, output) {
 
   ## exporter perspective###########################################################
 
+  
+  observe({
+    updateSelectInput(getDefaultReactiveDomain(), "x_sector", choices = exporter_emissions_df%>%
+                        filter(Level==input$x_level)%>%
+                        select(Desc)%>%
+                        unique(),
+                      selected=NULL)
+  })
+  
+  
   output$x_topCountries <- renderPlotly({
 
     
     x_sector<- input$x_sector
     
     ggplotly(
-      ggplot(top_n(exporter_emissions_df %>% filter(IND == input$x_sector), input$n_e_country, obsValue))+
-        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c3, stat = "identity")+
+      ggplot(top_n(exporter_emissions_df %>%
+                     filter(Level== input$x_level)%>%
+                     filter(Desc == input$x_sector), input$n_e_country, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c2, stat = "identity")+
         geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
         labs(title =paste0("The ",input$n_e_country, " countries with the largest exported emissions"),
              x ="Emissions embodied in exports (tonnes, millions)",
@@ -111,14 +124,23 @@ shinyServer(function(input, output) {
 
 
 
+  
+  
+  
+  
+
+  
+  
   output$x_topSectors <- renderPlotly({
     
     x_country <- input$x_country
     
     ggplotly(
-      ggplot(top_n(exporter_emissions_df %>% filter(COU == input$x_country), input$n_e_sector, obsValue))+
-        geom_bar(aes(x=obsValue,y=reorder(IND,obsValue)),fill=c2,color=c3, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(IND,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+      ggplot(top_n(exporter_emissions_df %>% 
+                     filter(Level==input$x_level)%>%
+                     filter(COU == input$x_country), input$n_e_sector, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(Desc,obsValue)),fill=c2,color=c2, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(Desc,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
         labs(title =paste0("The top ", input$n_e_sector," sectors with the largest exported emissions in ", x_country),
              x ="Emissions embodied in exports (tonnes, millions)",
              y="")+
@@ -151,12 +173,23 @@ shinyServer(function(input, output) {
 
   ## importer perspective###########################################################
 
-  output$i_topCountries <- renderPlotly({
+  observe({
+    updateSelectInput(getDefaultReactiveDomain(), "i_sector", choices = importer_emissions_df%>%
+                        filter(Level==input$i_level)%>%
+                        select(Desc)%>%
+                        unique(),
+                      selected=NULL)
+  })
+  
+  
+  
+  
+   output$i_topCountries <- renderPlotly({
     i_sector <- input$i_sector
 
     ggplotly(
-      ggplot(top_n(importer_emissions_df %>% filter(IND == input$i_sector), input$n_i_country, obsValue))+
-        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c3, stat = "identity")+
+      ggplot(top_n(importer_emissions_df %>% filter(Desc == input$i_sector), input$n_i_country, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c2, stat = "identity")+
         geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
         labs(title =paste0("The ",input$n_i_country, " countries with the largest imported emissions"),
              x ="Emissions embodied in imports (tonnes, millions)",
@@ -191,9 +224,11 @@ shinyServer(function(input, output) {
     i_country <- input$i_country
 
     ggplotly(
-      ggplot(top_n(importer_emissions_df %>% filter(COU == input$i_country), input$n_i_sector, obsValue))+
-        geom_bar(aes(x=obsValue,y=reorder(IND,obsValue)),fill=c2,color=c3, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(IND,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+      ggplot(top_n(importer_emissions_df %>% 
+                     filter(Level==input$i_level)%>%
+                     filter(COU == input$i_country), input$n_i_sector, obsValue))+
+        geom_bar(aes(x=obsValue,y=reorder(Desc,obsValue)),fill=c2,color=c2, stat = "identity")+
+        geom_text_repel(aes(x=obsValue,y=reorder(Desc,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
         labs(title =paste0("The top ", input$n_i_sector," sectors with the largest imported emissions in ", i_country),
              x ="Emissions embodied in imports (tonnes, millions)",
              y="")+
