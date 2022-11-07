@@ -30,6 +30,7 @@ p {
   display: flex;
 }
 
+
 .navbar > div {
   margin: 0;
 }
@@ -39,6 +40,11 @@ p {
   display: flex;
   height: 100%;
   align-items: center;
+  margin: 0;
+}
+
+.navbar-default > .container-fluid {
+  display: inline-flex;
 }
 
 .navbar-brand {
@@ -71,6 +77,17 @@ p {
 
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
   color: #f1f6ff;
+}
+
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    min-height: 50px;
+  }
+  
+  .navbar-nav {
+    font-size: 14px;
+  }
 }
 
 
