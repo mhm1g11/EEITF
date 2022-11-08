@@ -12,9 +12,7 @@ library(tidyverse)
 library(ggplot2)
 library(plotly)
 library(chorddiag)
-library(ggrepel)
-library(grid)
-library(gtable)
+library(directlabels)
 
 ### Set colour palette
 
@@ -89,8 +87,19 @@ shinyServer(function(input, output) {
       ggplot(top_n(exporter_emissions_df %>%
                      filter(Level== input$x_level)%>%
                      filter(Desc == input$x_sector), input$n_e_country, obsValue))+
+        
+        
         geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c2, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        
+        geom_text(aes(x=ifelse(obsValue<max(obsValue)*7/127,
+                               obsValue+(max(obsValue)*3/100),
+                               obsValue-(max(obsValue)*3/100)),y=reorder(COU,obsValue),label=ifelse(obsValue<max(obsValue)*7/127,COU,element_blank())), color=c2, size=3)+
+        
+        geom_text(aes(x=ifelse(obsValue<max(obsValue)*7/127,
+                      obsValue+(max(obsValue)*3/100),
+                      obsValue-(max(obsValue)*3/100)),y=reorder(COU,obsValue),label=ifelse(obsValue>max(obsValue)*7/127,COU,element_blank())), color="white", size=3)+
+        
+        
         labs(title =paste0("The ",input$n_e_country, " countries with the largest exported emissions"),
              x ="Emissions embodied in exports (tonnes, millions)",
              y="")+
@@ -107,6 +116,7 @@ shinyServer(function(input, output) {
               
               axis.line=element_blank(),
               axis.text.x=element_blank(),
+              axis.text.y=element_blank(),
               axis.ticks=element_blank(),
               axis.title.x=element_blank(),
               axis.title.y=element_blank(),
@@ -140,7 +150,9 @@ shinyServer(function(input, output) {
                      filter(Level==input$x_level)%>%
                      filter(COU == input$x_country), input$n_e_sector, obsValue))+
         geom_bar(aes(x=obsValue,y=reorder(Desc,obsValue)),fill=c2,color=c2, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(Desc,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        #geom_text(aes(x=obsValue+(max(obsValue)*10/100),y=reorder(Desc,obsValue),label=ifelse(obsValue<max(obsValue)*20/127,Desc,element_blank())), color=c2, size=3, hjust="right")+
+        #geom_text(aes(x=obsValue-(max(obsValue)*10/100),y=reorder(Desc,obsValue),label=ifelse(obsValue>max(obsValue)*20/127,Desc,element_blank())), color="white", size=3, hjust="right")+
+        
         labs(title =paste0("The top ", input$n_e_sector," sectors with the largest exported emissions in ", x_country),
              x ="Emissions embodied in exports (tonnes, millions)",
              y="")+
@@ -157,6 +169,7 @@ shinyServer(function(input, output) {
               
               axis.line=element_blank(),
               axis.text.x=element_blank(),
+              #axis.text.y=element_blank(),
               axis.ticks=element_blank(),
               axis.title.x=element_blank(),
               axis.title.y=element_blank(),
@@ -190,7 +203,13 @@ shinyServer(function(input, output) {
     ggplotly(
       ggplot(top_n(importer_emissions_df %>% filter(Desc == input$i_sector), input$n_i_country, obsValue))+
         geom_bar(aes(x=obsValue,y=reorder(COU,obsValue)),fill=c2,color=c2, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(COU,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        geom_text(aes(x=ifelse(obsValue<max(obsValue)*7/127,
+                               obsValue+(max(obsValue)*3/100),
+                               obsValue-(max(obsValue)*3/100)),y=reorder(COU,obsValue),label=ifelse(obsValue<max(obsValue)*7/127,COU,element_blank())), color=c2, size=3)+
+        
+        geom_text(aes(x=ifelse(obsValue<max(obsValue)*7/127,
+                               obsValue+(max(obsValue)*3/100),
+                               obsValue-(max(obsValue)*3/100)),y=reorder(COU,obsValue),label=ifelse(obsValue>max(obsValue)*7/127,COU,element_blank())), color="white", size=3)+
         labs(title =paste0("The ",input$n_i_country, " countries with the largest imported emissions"),
              x ="Emissions embodied in imports (tonnes, millions)",
              y="")+
@@ -228,7 +247,7 @@ shinyServer(function(input, output) {
                      filter(Level==input$i_level)%>%
                      filter(COU == input$i_country), input$n_i_sector, obsValue))+
         geom_bar(aes(x=obsValue,y=reorder(Desc,obsValue)),fill=c2,color=c2, stat = "identity")+
-        geom_text_repel(aes(x=obsValue,y=reorder(Desc,obsValue),label=obsValue), color=c1,min.segment.length = 0, seed = 42, box.padding = 0.5)+
+        geom_text(aes(x=obsValue,y=reorder(Desc,obsValue),label=obsValue), color=c1)+
         labs(title =paste0("The top ", input$n_i_sector," sectors with the largest imported emissions in ", i_country),
              x ="Emissions embodied in imports (tonnes, millions)",
              y="")+
