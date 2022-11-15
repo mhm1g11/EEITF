@@ -50,99 +50,92 @@ shinyUI(fluidPage(
         )
       )
     ),
-    ## exporter perspective###########################################################
+    ## trade flows###########################################################
 
-
+    ######test#####
+    
     tabPanel(
-      "Exporter perspective",
-      sidebarLayout(
-        sidebarPanel(
-          
-          h3("How much emissions do countries export?"),
+      "Trade flows",
+      fluidPage(
+        fluidRow(
+          column(4,
+          h3("How much emissions do countries export and import?"),
           "Aggregate exported emissions per industry sector.",
           br(),
           selectInput(
-            "x_level",
+            "level",
             "Select ISIC classification level",
             c("Top level (total)" = 1, "Sector level, low detail" = 2, "Sector level, medium detail" = 3, "Sector level, high detail" = 4, "Sector level, highest detail" = 5),
             2
           ),
           selectInput(
-            "x_sector",
+            "sector",
             "Select a sector to explore in detail (top figure)",
             unique(sector_list),
             sector_pre
           ),
           sliderInput(
-            "n_e_country", "How many countries?", 1, 20,
+            "n_country", "How many countries?", 1, 20,
             10
-          ),
-          selectInput(
-            "x_country",
-            "Select a country to explore in detail (bottom figure)",
-            unique(country_list),
-            country_pre
-          ),
-          sliderInput(
-            "n_e_sector", "How many sectors?", 1, 20,
-            10
-          )
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          plotlyOutput("x_topCountries"),
+          )),
+          
+          column(4,
+                 plotlyOutput("x_topCountries")
+                 ),
+          column(4,
+                 plotlyOutput("i_topCountries")
+                                  )),
           br(),
-          plotlyOutput("x_topSectors")
+        br(),
+        br(),
+          fluidRow(
+            column(4,
+                   h3("Which sectors are most responsible for emissions embodied in exports?"),
+                   selectInput(
+              "country",
+              "Select a country to explore in detail (bottom figure)",
+              unique(country_list),
+              country_pre
+            ),
+            selectInput(
+              "t_level",
+              "Select ISIC classification level",
+              c("Top level (total)" = 1, "Sector level, low detail" = 2, "Sector level, medium detail" = 3, "Sector level, high detail" = 4, "Sector level, highest detail" = 5),
+              2
+            ),
+            sliderInput(
+              "n_sector", "How many sectors?", 1, 20,
+              10
+            )),
+            
+            column(8,
+                   
+                   plotlyOutput("i_topSectors")
+              
+              
+            )
+            
+            
+            )
+          
+          
+          
+          
         )
-      )
-    ),
+        
+
+      ),
+    
+    
+
+    
+    
+    
 
     ## importer perspective###########################################################
 
     tabPanel(
-      "Importer perspective",
-      sidebarLayout(
-        sidebarPanel(
-          h3("How much emissions do countries import?"),
-          "Aggregate imported emissions per industry sector.",
-          br(),
-          selectInput(
-            "i_level",
-            "Select ISIC classification level",
-            c("Top level (total)" = 1, "Sector level, low detail" = 2, "Sector level, medium detail" = 3, "Sector level, high detail" = 4, "Sector level, highest detail" = 5),
-            2
-          ),
-          selectInput(
-            "i_sector",
-            "Select a sector to explore in detail (top figure)",
-            unique(sector_list),
-            sector_pre
-          ),
-          sliderInput(
-            "n_i_country", "How many countries?", 1, 20,
-            10
-          ),
-          selectInput(
-            "i_country",
-            "Select a country to explore in detail (bottom figure)",
-            unique(country_list),
-            country_pre
-          ),
-          sliderInput(
-            "n_i_sector", "How many sectors?", 1, 20,
-            10
-          )
-        ),
-
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          plotlyOutput("i_topCountries"),
-          br(),
-          plotlyOutput("i_topSectors")
-        )
-      )
+      "Trade risks"
     )
   )
 ))

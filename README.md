@@ -16,17 +16,13 @@
       * Country selection returning profile
       * Emission intensity of trade: emissions versus volume / value
       * longitudinal representation
-    * Exporter perspective
-      * Implement this: https://www.sciencedirect.com/science/article/pii/S2214629621003339
-      * Data infrastructure - _done!_
-      * Largest exporters - _done!_
-      * Largest export sectors
-      * Carbon tariff exposure
-    * Importer perspective
-      * Data infrastructure - _done!_
-      * Largest importers - _done!_
-      * Largest import sectors
-      * Carbon pricing exposure
+    * Trade flow details
+      * Exporter perspective
+      * Importer perspective
+      * Tree-map for relevant sectors, but at HS2 level
+    * Carbon tariff exposure
+      * Carbon tariff exposure tool (select implementing and affected countries, as well as sectors)
+      * 
   * CSS style sheets (also for general template use)
   * Deployment - _done!_
 
