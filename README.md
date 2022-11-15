@@ -17,6 +17,7 @@
       * Emission intensity of trade: emissions versus volume / value
       * longitudinal representation
     * Exporter perspective
+      * Implement this: https://www.sciencedirect.com/science/article/pii/S2214629621003339
       * Data infrastructure - _done!_
       * Largest exporters - _done!_
       * Largest export sectors
