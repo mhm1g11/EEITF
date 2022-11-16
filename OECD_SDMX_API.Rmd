@@ -17,10 +17,8 @@ library(plotly)
 
 ```{r}
 isic<-read.csv("isic.csv",header = TRUE)
-colnames(isic) <- isic[1, ]  
-isic<- isic[-1,]
-```
 
+```
 
 
 
@@ -50,6 +48,20 @@ write.csv(sector_df,"EEITF_Viz/sector_df.csv",col.names=FALSE, row.names=FALSE)
 
 
 ```
+```{r}
+export_emissions_long_sector<-exporter_emissions_df%>%
+  mutate(Parent=ifelse(Level==1,"",ifelse(
+    Level==2,N1,ifelse(
+      Level==3,N2,ifelse(
+        Level==4,N3,N4)))))%>%
+  mutate(Child=ifelse(Level==1,N1,ifelse(
+    Level==2,N2,ifelse(
+      Level==3,N3,ifelse(
+        Level==4,N4,N5)))))
+
+write.csv(export_emissions_long_sector,"EEITF_Viz/export_emissions_long_sector.csv")
+```
+
 
 
 ```{r}

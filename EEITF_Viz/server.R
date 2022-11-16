@@ -12,7 +12,6 @@ library(tidyverse)
 library(ggplot2)
 library(plotly)
 library(chorddiag)
-library(directlabels)
 
 ### Set colour palette
 
@@ -41,7 +40,7 @@ flows_m_2 <- read.csv("flows_m_2.csv") %>%
   column_to_rownames("x_region")
 m_2 <- as.matrix(flows_m_2)
 
-
+exporter_emissions_long_sector <- read.csv("export_emissions_long_sector.csv")
 
 
 
@@ -190,11 +189,10 @@ shinyServer(function(input, output) {
 
     
     plot_ly(
-      top_n(exporter_emissions_df %>%
-              filter(Level == input$t_level) %>%
-              filter(COU == input$country), input$n_sector, obsValue),
-      labels= ~Desc,
-      parents= NA,
+      exporter_emissions_long_sector  %>%
+              filter(COU == input$country),
+      labels= ~Child,
+      parents= ~Parent,
       values= ~obsValue,
       type='treemap'
     )
@@ -204,38 +202,6 @@ shinyServer(function(input, output) {
     
     
     
-    # ggplotly(
-    #   ggplot(top_n(importer_emissions_df %>%
-    #     filter(Level == input$level) %>%
-    #     filter(COU == input$country), input$n_sector, obsValue)) +
-    #     geom_bar(aes(x = obsValue, y = reorder(Desc, obsValue)), fill = c2, color = c2, stat = "identity") +
-    #     geom_text(aes(x = obsValue, y = reorder(Desc, obsValue), label = obsValue), color = c1) +
-    #     labs(
-    #       title = paste0("The top ", input$n_sector, " sectors with the largest imported emissions in ", country),
-    #       x = "Emissions embodied in imports (tonnes, millions)",
-    #       y = ""
-    #     ) +
-    #     theme_light() +
-    #     theme(
-    #       legend.position = "right",
-    #       legend.direction = "vertical",
-    #       legend.margin = margin(),
-    #       plot.title = element_text(color = c1),
-    #       plot.subtitle = element_text(color = c1),
-    #       axis.title = element_text(color = c1),
-    #       legend.text = element_text(color = c1),
-    #       legend.title = element_text(color = c1),
-    #       axis.line = element_blank(),
-    #       axis.text.x = element_blank(),
-    #       axis.ticks = element_blank(),
-    #       axis.title.x = element_blank(),
-    #       axis.title.y = element_blank(),
-    #       panel.background = element_blank(),
-    #       panel.border = element_blank(),
-    #       panel.grid.major = element_blank(),
-    #       panel.grid.minor = element_blank(),
-    #       plot.background = element_blank()
-    #     )
-    # )
+
   })
 })

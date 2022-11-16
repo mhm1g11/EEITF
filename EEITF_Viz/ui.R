@@ -96,16 +96,6 @@ shinyUI(fluidPage(
               "Select a country to explore in detail (bottom figure)",
               unique(country_list),
               country_pre
-            ),
-            selectInput(
-              "t_level",
-              "Select ISIC classification level",
-              c("Top level (total)" = 1, "Sector level, low detail" = 2, "Sector level, medium detail" = 3, "Sector level, high detail" = 4, "Sector level, highest detail" = 5),
-              2
-            ),
-            sliderInput(
-              "n_sector", "How many sectors?", 1, 20,
-              10
             )),
             
             column(8,
@@ -135,7 +125,22 @@ shinyUI(fluidPage(
     ## importer perspective###########################################################
 
     tabPanel(
-      "Trade risks"
+      "Trade risks",
+      fluidPage(
+        fluidRow(
+          column(4,
+                 h3("Row 1")),
+          column(4),
+          column(4)
+        ),
+        fluidRow(
+          column(4,
+                 h3("Row 2")),
+          column(4),
+          column(4)
+        )
+        
+      )
     )
   )
 ))
