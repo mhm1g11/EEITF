@@ -22,7 +22,7 @@
       * Tree-map for relevant sectors, but at HS2 level
     * Carbon tariff exposure
       * Carbon tariff exposure tool (select implementing and affected countries, as well as sectors)
-      * 
+      * World price carbon pricing dashboard?
   * CSS style sheets (also for general template use)
   * Deployment - _done!_
 
